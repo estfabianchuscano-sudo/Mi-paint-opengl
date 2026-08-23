@@ -107,6 +107,41 @@ int main()
 
 	};
 
+	GLfloat gridVertices[] =
+	{
+		// Líneas verticales
+		-1.0f, -1.0f, 0.0f,
+		-1.0f,  1.0f, 0.0f,
+
+		-0.5f, -1.0f, 0.0f,
+		-0.5f,  1.0f, 0.0f,
+
+		 0.0f, -1.0f, 0.0f,
+		 0.0f,  1.0f, 0.0f,
+
+		 0.5f, -1.0f, 0.0f,
+		 0.5f,  1.0f, 0.0f,
+
+		 1.0f, -1.0f, 0.0f,
+		 1.0f,  1.0f, 0.0f,
+
+		 // Líneas horizontales
+		 -1.0f, -1.0f, 0.0f,
+		  1.0f, -1.0f, 0.0f,
+
+		 -1.0f, -0.5f, 0.0f,
+		  1.0f, -0.5f, 0.0f,
+
+		 -1.0f,  0.0f, 0.0f,
+		  1.0f,  0.0f, 0.0f,
+
+		 -1.0f,  0.5f, 0.0f,
+		  1.0f,  0.5f, 0.0f,
+
+		 -1.0f,  1.0f, 0.0f,
+		  1.0f,  1.0f, 0.0f
+	};
+
 	// Create reference containers for the Vartex Array Object and the Vertex Buffer Object
 	GLuint VAO, VBO, EBO;
 
@@ -136,16 +171,54 @@ int main()
 	glBindVertexArray(0);
 
 
+	GLuint gridVAO, gridVBO;
+
+	glGenVertexArrays(1, &gridVAO);
+	glGenBuffers(1, &gridVBO);
+
+	glBindVertexArray(gridVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, gridVBO);
+	glBufferData(
+		GL_ARRAY_BUFFER,
+		sizeof(gridVertices),
+		gridVertices,
+		GL_STATIC_DRAW
+	);
+
+	glVertexAttribPointer(
+		0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		3 * sizeof(float),
+		(void*)0
+	);
+
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+
 
 	// Main while loop
 	while (!glfwWindowShouldClose(window))
 	{
+		
 		// Specify the color of the background
-		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+		glClearColor(0.0f, 0.1f, 0.17f, 1.0f);
 		// Clean the back buffer and assign the new color to it
 		glClear(GL_COLOR_BUFFER_BIT);
 		// Tell OpenGL which Shader Program we want to use
 		glUseProgram(shaderProgram);
+		//GRILLA
+		glUseProgram(shaderProgram);
+		glUniform4f(colorLocation, 0.0f, 1.0f, 0.0f, 1.0f);
+
+		glBindVertexArray(gridVAO);
+
+		glDrawArrays(GL_LINES, 0, 20);
 		// Bind the VAO so OpenGL knows to use it
 		glBindVertexArray(VAO);
 		//primer triangulo
