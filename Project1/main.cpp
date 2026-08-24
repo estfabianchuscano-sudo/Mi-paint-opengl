@@ -2,7 +2,6 @@
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 
-// Vertex Shader source code
 
 // Vertex Shader source code
 const char* vertexShaderSource = "#version 140\n"
@@ -30,8 +29,8 @@ int main()
 	// In this case we are using OpenGL 3.1
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-	// glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
+
+
 	// Create a GLFWwindow object of 800 by 800 pixels, naming it "YoutubeOpenGL"
 	GLFWwindow* window = glfwCreateWindow(800, 800, "YoutubeOpenGL", NULL, NULL);
 	// Error check if the window fails to create
@@ -82,23 +81,33 @@ int main()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
+	GLfloat pointVertices[] =
+	{
+		-0.90f,  0.00f, 0.0f, // rojo
+		-0.80f,  0.15f, 0.0f, // verde
+		-0.70f,  0.00f, 0.0f  // azul
+	};
 
+	GLfloat triangleVertices[] =
+	{
+		-0.20f,  0.40f, 0.0f,  // arriba
+		-0.35f,  0.00f, 0.0f,  // abajo izquierda
+		-0.05f,  0.00f, 0.0f   // abajo derecha
+	};
 
 	// Vertices coordinates
 	GLfloat vertices[] =
 	{
-		// Esquina inferior izquierda
-		-0.5f, -0.5f, 0.0f,
-
-		// Esquina inferior derecha
-		 0.5f, -0.5f, 0.0f,
-
-		 // Esquina superior derecha
-		  0.5f,  0.5f, 0.0f,
-
-		  // Esquina superior izquierda
-		  -0.5f,  0.5f, 0.0f
+			0.30f, -0.20f, 0.0f,
+			
+			0.80f, -0.20f, 0.0f,
+			
+			0.80f, 0.30f, 0.0f,
+			
+			0.30f, 0.30f, 0.0f
+			
 	};
+	
 
 	GLuint indices[] =
 	{
@@ -141,6 +150,7 @@ int main()
 		 -1.0f,  1.0f, 0.0f,
 		  1.0f,  1.0f, 0.0f
 	};
+
 
 	// Create reference containers for the Vartex Array Object and the Vertex Buffer Object
 	GLuint VAO, VBO, EBO;
@@ -200,6 +210,63 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	GLuint pointVAO, pointVBO;
+
+	glGenVertexArrays(1, &pointVAO);
+	glGenBuffers(1, &pointVBO);
+
+	glBindVertexArray(pointVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, pointVBO);
+	glBufferData(
+		GL_ARRAY_BUFFER,
+		sizeof(pointVertices),
+		pointVertices,
+		GL_STATIC_DRAW
+	);
+
+	glVertexAttribPointer(
+		0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		3 * sizeof(float),
+		(void*)0
+	);
+
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+
+	GLuint triangleVAO, triangleVBO;
+
+	glGenVertexArrays(1, &triangleVAO);
+	glGenBuffers(1, &triangleVBO);
+
+	glBindVertexArray(triangleVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	glBufferData(
+		GL_ARRAY_BUFFER,
+		sizeof(triangleVertices),
+		triangleVertices,
+		GL_STATIC_DRAW
+	);
+
+	glVertexAttribPointer(
+		0,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		3 * sizeof(float),
+		(void*)0
+	);
+
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+
+	glPointSize(15.0f);
 
 
 	// Main while loop
@@ -212,13 +279,24 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 		// Tell OpenGL which Shader Program we want to use
 		glUseProgram(shaderProgram);
-		//GRILLA
-		glUseProgram(shaderProgram);
+		
+		//vertices
+
+		glUniform4f(colorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
+		glBindVertexArray(pointVAO);
+		glDrawArrays(GL_POINTS, 0, 1);
 		glUniform4f(colorLocation, 0.0f, 1.0f, 0.0f, 1.0f);
+		glDrawArrays(GL_POINTS, 1, 1);
+		glUniform4f(colorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
+		glDrawArrays(GL_POINTS, 2, 1);
 
-		glBindVertexArray(gridVAO);
+		//triangulo
+		glUniform4f(colorLocation, 1.0f, 1.0f, 0.0f, 1.0f);
 
-		glDrawArrays(GL_LINES, 0, 20);
+		glBindVertexArray(triangleVAO);
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		
 		// Bind the VAO so OpenGL knows to use it
 		glBindVertexArray(VAO);
 		//primer triangulo
@@ -227,6 +305,14 @@ int main()
 		//segundo triangulo
 		glUniform4f(colorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, (void*)(3 * sizeof(GLuint)));
+
+		//GRILLA
+		glUseProgram(shaderProgram);
+		glUniform4f(colorLocation, 0.0f, 1.0f, 0.0f, 1.0f);
+
+		glBindVertexArray(gridVAO);
+
+		glDrawArrays(GL_LINES, 0, 20);
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
