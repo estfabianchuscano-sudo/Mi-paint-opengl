@@ -17,7 +17,7 @@ de primitivas geométricas (segmentos de recta, rectángulos, circunferencias, t
 El sistema incorpora una interfaz de usuario intuitiva que agiliza la elección de pinceles,
 paletas cromáticas y modos de manipulación directa sobre el lienzo.
 
-3. Estructura y arquitectura:
+3. Estructura:
 
 El código fuente se divide en módulos desacoplados que operan de forma sincronizada para transformar
 los eventos del usuario en gráficos renderizados:
@@ -39,3 +39,43 @@ y las figuras resultantes.
 
 -Contexto y gestión de ventana: Utiliza GLFW para inicializar y administrar el ciclo de vida de la ventana, 
 junto con GLAD para cargar dinámicamente los punteros a las funciones modernas de OpenGL.
+
+4. Arquitectura del Sistema
+
+El proyecto sigue una arquitectura **Monolítica Modular basada en un Bucle de Renderizado en Tiempo Real (Game Loop)** bajo un paradigma **Procedural y Orientado a Datos**. En cada fotograma, el sistema ejecuta un flujo unidireccional de **Entrada $\rightarrow$ Estado $\rightarrow$ Rasterización $\rightarrow$ Renderizado**.
+
+### Diagrama de Flujo Arquitectónico
+
+```mermaid
+flowchart TD
+    subgraph Plataforma ["1. Capa de Plataforma y Ventana"]
+        GLFW["GLFW (Ventana, V-Sync, Eventos)"]
+        GLAD["GLAD (Carga de API OpenGL)"]
+    end
+
+    subgraph Interaccion ["2. Capa de Interacción"]
+        Raton["ProcesarRaton()\nMáquina de Estados (modo 0, 1, 2)"]
+        UI["DibujarInterfaz()\nPanel Contextual Dear ImGui"]
+    end
+
+    subgraph Estado ["3. Estado Central en Memoria"]
+        Vector["std::vector&lt;Figura&gt; figuras\n(Entidades paramétricas + Historial)"]
+        Globales["Variables de Control\n(herramientaActual, seleccion, tamGrilla)"]
+    end
+
+    subgraph Nucleo ["4. Núcleo de Rasterización"]
+        Calc["ObtenerCeldasFigura()\nBresenham | Punto Medio | Rotación 2D | Scanline"]
+        Sets["std::set&lt;Celda&gt;\nceldasBorde y celdasRelleno"]
+    end
+
+    subgraph Render ["5. Motor de Renderizado (OpenGL 2D)"]
+        Capas["Renderizado por Capas\n1. Rellenos → 2. Bordes → 3. Vista Previa → 4. Grilla → 5. Cursor"]
+    end
+
+    GLFW -->|Eventos Mouse/Teclado| Interaccion
+    Raton -->|Crea / Mueve / Escala| Estado
+    UI -->|Modifica propiedades| Estado
+    Estado -->|Lee parámetros geométricos| Calc
+    Calc -->|Discretiza en coordenadas| Sets
+    Sets -->|Proyección glOrtho| Capas
+    Capas -->|Buffer Swap| GLFW
