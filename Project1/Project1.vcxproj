@@ -77,10 +77,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\fabian\Downloads\libs\imgui-master;
+C:\Users\fabian\Downloads\libs\imgui-master\backends;C:\Users\fabian\Downloads\libs\glfw\include;C:\Users\fabian\Downloads\libs\glad\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)externo\lib;C:\Users\fabian\Downloads\libs\glfw\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib; opengl32.lib;gdi32.lib;user32.lib;shell32.lib;</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
@@ -95,10 +99,14 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\fabian\Downloads\libs\imgui-master;
+C:\Users\fabian\Downloads\libs\imgui-master\backends;C:\Users\fabian\Downloads\libs\glfw\include;C:\Users\fabian\Downloads\libs\glad\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)externo\lib;C:\Users\fabian\Downloads\libs\glfw\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib; opengl32.lib;gdi32.lib;user32.lib;shell32.lib;</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
@@ -111,19 +119,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\Fabian\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\include;C:\Users\Fabian\Downloads\glad\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\fabian\Downloads\libs\imgui-master;
+C:\Users\fabian\Downloads\libs\imgui-master\backends;C:\Users\fabian\Downloads\libs\glfw\include;C:\Users\fabian\Downloads\libs\glad\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Fabian\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\lib-vc2026</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib
-;opengl32.lib;
-
-user32.lib
-;gdi32.lib
-;
-shell32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)externo\lib;C:\Users\fabian\Downloads\libs\glfw\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib; opengl32.lib;gdi32.lib;user32.lib;shell32.lib;</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
@@ -138,17 +141,27 @@ shell32.lib</AdditionalDependencies>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\fabian\Downloads\libs\imgui-master;
+C:\Users\fabian\Downloads\libs\imgui-master\backends;C:\Users\fabian\Downloads\libs\glfw\include;C:\Users\fabian\Downloads\libs\glad\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)externo\lib;C:\Users\fabian\Downloads\libs\glfw\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib; opengl32.lib;gdi32.lib;user32.lib;shell32.lib;</AdditionalDependencies>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Downloads\glad\src\glad.c" />
+    <ClCompile Include="..\..\..\..\..\Downloads\glad\src\glad.c" />
+    <ClCompile Include="..\..\..\..\..\Downloads\libs\imgui-master\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\libs\imgui-master\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\libs\imgui-master\imgui.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\libs\imgui-master\imgui_draw.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\libs\imgui-master\imgui_tables.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\libs\imgui-master\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
