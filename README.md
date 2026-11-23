@@ -49,7 +49,7 @@ El proyecto sigue una arquitectura **Monolítica Modular basada en un Bucle de R
 ```mermaid
 flowchart TD
     subgraph Plataforma ["1. Capa de Plataforma y Ventana"]
-        GLFW["GLFW (Ventana, V-Sync, Eventos)"]
+        GLFW["GLFW (Ventana, Eventos)"]
         GLAD["GLAD (Carga de API OpenGL)"]
     end
 
@@ -59,12 +59,12 @@ flowchart TD
     end
 
     subgraph Estado ["3. Estado Central en Memoria"]
-        Vector["std::vector&lt;Figura&gt; figuras\n(Entidades paramétricas + Historial)"]
+        Vector["std::vector&lt;Figura&gt; figuras\n(Entidades paramétricas)"]
         Globales["Variables de Control\n(herramientaActual, seleccion, tamGrilla)"]
     end
 
     subgraph Nucleo ["4. Núcleo de Rasterización"]
-        Calc["ObtenerCeldasFigura()\nBresenham | Punto Medio | Rotación 2D | Scanline"]
+        Calc["ObtenerCeldasFigura()\nBresenham | Rotación 2D "]
         Sets["std::set&lt;Celda&gt;\nceldasBorde y celdasRelleno"]
     end
 
